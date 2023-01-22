@@ -11,7 +11,7 @@ public class Scientific {
     private JButton CEButton;
     private JButton tanButton1;
     private JButton button5;
-    private JButton eButton1;
+    private JButton logButton;
     private JButton degButton;
     private JButton radButton;
     private JButton lnButton;
@@ -44,7 +44,7 @@ public class Scientific {
     private JPanel Calculator;
 
     double a,b,c,result,ans;
-    String op,angle;
+    String op,angle,r;
 
     public Scientific() {
         a1Button.addActionListener(new ActionListener() {
@@ -226,42 +226,71 @@ public class Scientific {
                     b = Double.parseDouble(s.substring(1,s.length()));
                     textField1.setText(String.valueOf(a/b));
                 }
+                if(op=="%"){
+                    String s = textField1.getText();
+                    b = Double.parseDouble(s.substring(1,s.length()));
+                    textField1.setText(String.valueOf(a%b));
+                }
                 if(op=="s"){
                     double deg = Double.parseDouble(textField1.getText().substring(3,textField1.getText().length()));
-                    deg = Math.toRadians(deg);
+                    if(r!="r") {
+                        deg = Math.toRadians(deg);
+                    }
                     textField1.setText(String.valueOf(Math.sin(deg)));
                 }
                 if(op=="c"){
                     double deg = Double.parseDouble(textField1.getText().substring(3,textField1.getText().length()));
-                    deg = Math.toRadians(deg);
+                    if(r!="r") {
+                        deg = Math.toRadians(deg);
+                    }
                     textField1.setText(String.valueOf(Math.cos(deg)));
                 }
                 if(op=="t"){
                     double deg = Double.parseDouble(textField1.getText().substring(3,textField1.getText().length()));
-                    deg = Math.toRadians(deg);
+                    if(r!="r") {
+                        deg = Math.toRadians(deg);
+                    }
                     textField1.setText(String.valueOf(Math.tan(deg)));
                 }
                 if(op=="s1"){
 
                     double deg = Double.parseDouble(textField1.getText().substring(5,textField1.getText().length()));
-                    if(deg>=-1 && deg<=1)
-                    textField1.setText(String.valueOf(Math.asin(deg)));
+                    if(deg>=-1 && deg<=1) {
+                        if(r!="r") {
+                            ans = Math.asin(deg);
+                            textField1.setText(String.valueOf(Math.toDegrees(ans)));
+                        }else {
+                            textField1.setText(String.valueOf(Math.asin(deg)));
+                        }
+                    }
                     else
                         textField1.setText("Math error");
                 }
                 if(op=="c1"){
 
                     double deg = Double.parseDouble(textField1.getText().substring(5,textField1.getText().length()));
-                    if(deg>=-1 && deg<=1)
-                        textField1.setText(String.valueOf(Math.acos(deg)));
+                    if(deg>=-1 && deg<=1) {
+                        if(r!="r") {
+                            ans = Math.acos(deg);
+                            textField1.setText(String.valueOf(Math.toDegrees(ans)));
+                        }else {
+                            textField1.setText(String.valueOf(Math.acos(deg)));
+                        }
+                    }
                     else
                         textField1.setText("Math error");
                 }
                 if(op=="t1"){
 
                     double deg = Double.parseDouble(textField1.getText().substring(5,textField1.getText().length()));
-                    if(deg>=-1 && deg<=1)
-                        textField1.setText(String.valueOf(Math.atan(deg)));
+                    if(deg>=-1 && deg<=1) {
+                        if(r!="r") {
+                            ans = Math.atan(deg);
+                            textField1.setText(String.valueOf(Math.toDegrees(ans)));
+                        }else {
+                            textField1.setText(String.valueOf(Math.atan(deg)));
+                        }
+                    }
                     else
                         textField1.setText("Math error");
                 }
@@ -293,6 +322,11 @@ public class Scientific {
                 if(op=="ln"){
                     double val = Double.parseDouble(textField1.getText().substring(2,textField1.getText().length()));
                     textField1.setText(String.valueOf(Math.log(val)));
+                }
+                if(op=="log"){
+                    double val = Double.parseDouble(textField1.getText().substring(3,textField1.getText().length()));
+                    double ans = Math.log(val)/2.3025850929940456840179914546844;
+                    textField1.setText(String.valueOf(ans));
                 }
 
             }
@@ -351,6 +385,33 @@ public class Scientific {
                 op="ln";
             }
         });
+        button5.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                a = Double.parseDouble(textField1.getText());
+                textField1.setText("%");
+                op="%";
+            }
+        });
+        logButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                textField1.setText("log");
+                op="log";
+            }
+        });
+        radButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               r = "r";
+            }
+        });
+        degButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                r="d";
+            }
+        });
     }
 
     public static void main(String[] args) {
@@ -360,4 +421,6 @@ public class Scientific {
         frame.pack();
         frame.setVisible(true);
     }
+
+
 }
